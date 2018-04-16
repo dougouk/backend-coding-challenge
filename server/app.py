@@ -7,7 +7,7 @@ import logging
 import os
 import uuid
 import redis
-import similarity
+import algorithm
 import json
 
 from flask import Flask, jsonify, request, redirect, url_for
@@ -41,10 +41,15 @@ def upload_wav():
     if query_lat:
         logger.info(f'Additional location info: [{query_lat}:{query_long}]')
 
+    results = algorithm.search('Yoronto', 41.43979137, -88.1234974)
+    sorted_results = sorted(results, key=lambda x: x.confidence_level, reverse=True)
+    sorted_results
+
     result = {
         'q': query_location,
         'lat': query_lat,
-        'lng': query_long
+        'lng': query_long,
+        'results': [result.toJSON() for result in sorted_results]
     }
     
     return json.dumps(result)

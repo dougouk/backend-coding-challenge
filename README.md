@@ -5,12 +5,15 @@
 
 Create table and populate it with data.
 You may need to configure the database name, username, and password
+
 `python server/setup.py`
 
 ## Run App
 
 `cd server`
+
 `export FLASK_APP=app.py`
+
 `flask run`
 
 ## Requirements Satisfaction
@@ -60,12 +63,15 @@ It also covers the case where there are multiple cities with the same name. In s
 The following ideas have been considered.
 
 **Using city population as a factor** 
+
 This came from the idea that cities with a higher population are more likely to be searched for than cities with a low population. But when I thought about my everyday use with map searches, I realized this isn't the case. So I scrapped the idea.
 
 **Using the user's lat and long to determine which country they are in, and then prioritizing the cities from that country**
+
 This goes in accordance with the user's lat-long and physical proximity to a city. However, I thought about my experiences with searches and realized this is not an ideal feature. For example, when I search for Paris, I am 99% of the time searching for Paris in France and not Paris in Canada.
 
 **Keeping track of user's searches and the results**
+
 Ideally, it would be great to save the user's searches and chosen results in order to analye the queries. Further recommendations and better suggestions can be provided through this idea. However, I think this is beyond the scope of what I can do for the challenge as it requires client-side implementation on usage and analytics.
 
 ## References

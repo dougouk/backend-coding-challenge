@@ -51,11 +51,6 @@ def edit_distance_helper(a, b, graph):
             diff = 1 if a[i-1] != b[j-1] else 0
             graph[i][j] = min(graph[i-1][j] + 1, graph[i][j-1] + 1, graph[i-1][j-1] + diff)
     return graph
-    
-# edge_d('exponential', 'polynomial')
-
-# edge_d('Calgary', '')
-# edge_d('Snow', 'Know')
 
 def lat_long_d(_lat_a, _long_a, _lat_b, _long_b):
     '''
@@ -129,6 +124,8 @@ def search(query, lat=None, long=None):
     Output
         Array of cities that may be good results based on the input parameters
     '''
+    if query == '':
+        return []
     con = None
     con = connect(database= 'coveo_cities', user='postgres', host = 'localhost', password='password')
     cur = con.cursor()

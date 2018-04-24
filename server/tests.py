@@ -69,6 +69,11 @@ class Test_Search(unittest.TestCase):
         self.assertEqual(first_city.confidence_level, 0.9824211409812602)
         self.assertEqual(first_city.physical_distance, 19.272830905652228)
 
+    def test_empty_query(self):
+        results = algorithm.search('', None, None)
+        sorted_search = sorted(results, key=lambda x: x.confidence_level, reverse=True)
+        sorted_search
+
 def main():
     unittest.main()
 

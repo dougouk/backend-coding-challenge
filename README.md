@@ -33,7 +33,9 @@ API endpoint is provided at 35.196.219.197:5005/suggestions
 
 ## Language and technology
 
-Python - Learned more extensively through this coding challenge. Prior, I have only used it to the extent of programming interview questions. 
+I am new to backend development, and am not aware of the best practices. I am coming from a Mobile Development background (Android).
+
+Python - Learned more extensively through this coding challenge. Prior, I have only used for one university project.
 
 PostgreSQL - New to it, tried it, loved it.
 

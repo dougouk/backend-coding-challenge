@@ -26,7 +26,7 @@ def hello_world():
 @app.route('/readall')
 def read_all():
     result = dict()
-    result['rows'] = algorithm.goThroughDatabase()
+    result['rows'] = algorithm.rows_in_database()
     return json.dumps(result)
 
 @app.route('/suggestions', methods=['GET'])

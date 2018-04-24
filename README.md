@@ -1,86 +1,73 @@
 # Coveo Backend Coding Challenge
 (inspired by https://github.com/busbud/coding-challenge-backend-c)
 
-## Requirements
+## Setup
 
-Design an API endpoint that provides auto-complete suggestions for large cities.
+Create table and populate it with data.
+You may need to configure the database name, username, and password
+`python server/setup.py`
 
-- The endpoint is exposed at `/suggestions`
-- The partial (or complete) search term is passed as a querystring parameter `q`
-- The caller's location can optionally be supplied via querystring parameters `latitude` and `longitude` to help improve relative scores
-- The endpoint returns a JSON response with an array of scored suggested matches
-    - The suggestions are sorted by descending score
-    - Each suggestion has a score between 0 and 1 (inclusive) indicating confidence in the suggestion (1 is most confident)
-    - Each suggestion has a name which can be used to disambiguate between similarly named locations
-    - Each suggestion has a latitude and longitude
+## Run App
 
-## "The rules"
+`cd server`
+`export FLASK_APP=app.py`
+`flask run`
 
-- *You can use the language and technology of your choosing.* It's OK to try something new (tell us if you do), but feel free to use something you're comfortable with. We don't care if you use something we don't; the goal here is not to validate your knowledge of a particular technology.
-- End result should be deployed on a public Cloud (Heroku, AWS etc. all have free tiers you can use).
+## Requirements Satisfaction
 
-## Advices
+> Design an API endpoint that provides auto-complete suggestions for large cities.
 
-- **Try to design and implement your solution as you would do for real production code**. Show us how you create clean, maintainable code that does awesome stuff. Build something that we'd be happy to contribute to. This is not a programming contest where dirty hacks win the game.
-- Feel free to add more features! Really, we're curious about what you can think of. We'd expect the same if you worked with us.
-- Documentation and maintainability is a plus.
-- Don't you forget those unit tests.
-- We don’t want to know if you can do exactly as asked (or everybody would have the same result). We want to know what **you** bring to the table when working on a project, what is your secret sauce. More features? Best solution? Thinking outside the box?
+API endpoint is provided at 35.196.219.197:5005/suggestions
 
-## Sample responses
+> - The endpoint is exposed at `/suggestions`
+> - The partial (or complete) search term is passed as a querystring parameter `q`
+> - The caller's location can optionally be supplied via querystring parameters `latitude` and `longitude` to help improve relative scores
+> - The endpoint returns a JSON response with an array of scored suggested matches
+>     - The suggestions are sorted by descending score
+>     - Each suggestion has a score between 0 and 1 (inclusive) indicating confidence in the suggestion (1 is most confident)
+>     - Each suggestion has a name which can be used to disambiguate between similarly named locations
+>     - Each suggestion has a latitude and longitude
 
-These responses are meant to provide guidance. The exact values can vary based on the data source and scoring algorithm
+## Language and technology
 
-**Near match**
+Python - Learned more extensively through this coding challenge. Prior, I have only used it to the extent of programming interview questions. 
 
-    GET /suggestions?q=Londo&latitude=43.70011&longitude=-79.4163
+PostgreSQL - New to it, tried it, loved it.
 
-```json
-{
-  "suggestions": [
-    {
-      "name": "London, ON, Canada",
-      "latitude": "42.98339",
-      "longitude": "-81.23304",
-      "score": 0.9
-    },
-    {
-      "name": "London, OH, USA",
-      "latitude": "39.88645",
-      "longitude": "-83.44825",
-      "score": 0.5
-    },
-    {
-      "name": "London, KY, USA",
-      "latitude": "37.12898",
-      "longitude": "-84.08326",
-      "score": 0.5
-    },
-    {
-      "name": "Londontowne, MD, USA",
-      "latitude": "38.93345",
-      "longitude": "-76.54941",
-      "score": 0.3
-    }
-  ]
-}
-```
+Google Compute Engine - I have used the Google Compute Engine to set up an API endpoint for 1 project before. The new aspect from this project was to populate the database instance.
 
-**No match**
+## Scoring algorithm
 
-    GET /suggestions?q=SomeRandomCityInTheMiddleOfNowhere
+1. Edit distance
+2. Physical distance
 
-```json
-{
-  "suggestions": []
-}
-```
+### Edit distance
+
+Edit distance is basically the number of character differences between two words. For example, 'snow' and 'know' have only 1 character difference. 'sunny' and 'sunday' have 2. The algorithm is effective for finding the minimal number of character differences between the two words, which may possess an unequal number of characters.
+
+### Physical distance
+
+Physical distance is taken as an optional input parameter to detect whether or not a particular city should be a more accurate result than another. For example, if a user is located near city A than B, then city A will have a higher score than city B on the physical distance category.
+
+### Weighting 
+
+After tweaking and testing, a 80-20 ratio between the two factors are ideal. This supports the case where a user's query will be very different from the city's name while the city is located very close to the user. In cases like these, it doesn't make sense to show entirely different cities just for the sake of being close.
+
+It also covers the case where there are multiple cities with the same name. In such cases, it makes more sense to suggest the city that is closer to the user.
+
+## Further ideas
+
+The following ideas have been considered.
+
+**Using city population as a factor** 
+This came from the idea that cities with a higher population are more likely to be searched for than cities with a low population. But when I thought about my everyday use with map searches, I realized this isn't the case. So I scrapped the idea.
+
+**Using the user's lat and long to determine which country they are in, and then prioritizing the cities from that country**
+This goes in accordance with the user's lat-long and physical proximity to a city. However, I thought about my experiences with searches and realized this is not an ideal feature. For example, when I search for Paris, I am 99% of the time searching for Paris in France and not Paris in Canada.
+
+**Keeping track of user's searches and the results**
+Ideally, it would be great to save the user's searches and chosen results in order to analye the queries. Further recommendations and better suggestions can be provided through this idea. However, I think this is beyond the scope of what I can do for the challenge as it requires client-side implementation on usage and analytics.
 
 ## References
 
 - Geonames provides city lists Canada and the USA http://download.geonames.org/export/dump/readme.txt
-
-## Getting Started
-
-Begin by forking this repo and cloning your fork. GitHub has apps for [Mac](http://mac.github.com/) and
-[Windows](http://windows.github.com/) that make this easier.

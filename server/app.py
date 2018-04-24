@@ -5,13 +5,10 @@ Coveo Backend Coding Challenge
 
 import logging
 import os
-import uuid
-import redis
 import algorithm
 import json
 
-from flask import Flask, jsonify, request, redirect, url_for
-from werkzeug.utils import secure_filename
+from flask import Flask, jsonify, request
 
 # Set up logger and flask app
 logging.basicConfig(level=logging.INFO)

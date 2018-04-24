@@ -4,3 +4,5 @@ server/__pycache__/
 data/\.ipynb_checkpoints/
 
 data/\.DS_Store
+
+server/dump\.rdb

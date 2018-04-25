@@ -20,7 +20,7 @@ You may need to configure the database name, username, and password
 
 > Design an API endpoint that provides auto-complete suggestions for large cities.
 
-API endpoint is provided at 35.196.219.197:5005/suggestions
+API endpoint is provided at 35.229.65.11:5005/suggestions
 
 > - The endpoint is exposed at `/suggestions`
 > - The partial (or complete) search term is passed as a querystring parameter `q`
